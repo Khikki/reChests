@@ -1,6 +1,6 @@
 # Re:Chests
 
-Re:Chests is a Minecraft Forge 1.7.10 mod that adds wood-specific chest variants, trapped chests, and chest minecarts.
+Re:Chests adds wood-specific chest variants, trapped chests, and chest minecarts to Minecraft Forge 1.7.10.
 
 ## Features
 

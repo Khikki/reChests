@@ -6,6 +6,12 @@
 
 Re:Chests is a vanilla-friendly Minecraft Forge 1.7.10 mod that adds wood-specific chest variants, trapped chests, and chest minecarts.
 
+## Links
+
+- GitHub: https://github.com/Khikki/reChests
+- Modrinth: https://modrinth.com/mod/rechests
+- CurseForge: https://www.curseforge.com/minecraft/mc-mods/rechests
+
 ## Overview
 
 Vanilla Minecraft gives you different wood families for doors, trapdoors, fences, signs, and more, but storage is still mostly stuck with the same chest.

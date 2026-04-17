@@ -2,7 +2,7 @@
   {
     "modid": "rechests",
     "name": "Re:Chests",
-    "description": "Wood chest variants for Forge 1.7.10, including trapped chests and chest minecarts.",
+    "description": "Vanilla-friendly wooden chest variants, trapped chests, and chest minecarts for Forge 1.7.10.",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://github.com/Khikki/reChests",

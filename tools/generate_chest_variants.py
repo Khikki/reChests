@@ -6,23 +6,24 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE_DIR = ROOT / "tools" / "sources"
 SRC_CHEST_DIR = ROOT / "src" / "main" / "resources" / "assets" / "rechests" / "textures" / "entity" / "chest"
 SRC_BLOCK_DIR = ROOT / "src" / "main" / "resources" / "assets" / "rechests" / "textures" / "blocks"
 
 MINECRAFT_JAR = Path.home() / ".gradle" / "caches" / "minecraft" / "net" / "minecraft" / "minecraft" / "1.7.10" / "minecraft-1.7.10.jar"
 BASE_CHEST = SRC_CHEST_DIR / "mbirchchest.png"
 BASE_DOUBLE_CHEST = SRC_CHEST_DIR / "moakchest_double.png"
-NORMAL_CHEST = ROOT / "normal_chest_1.7.10.png"
-NORMAL_DOUBLE_CHEST = ROOT / "normal_double_chest_1.7.10.png"
-TRAPPED_CHEST = ROOT / "trapped_chest_1.7.10.png"
-TRAPPED_DOUBLE_CHEST = ROOT / "trapped_double_chest_1.7.10.png"
-BASE_PLANK = ROOT / "birch_planks_1.7.10.png"
-OAK_BASE_PLANK = ROOT / "oak_planks_1.7.10.png"
+NORMAL_CHEST = SOURCE_DIR / "normal_chest_1.7.10.png"
+NORMAL_DOUBLE_CHEST = SOURCE_DIR / "normal_double_chest_1.7.10.png"
+TRAPPED_CHEST = SOURCE_DIR / "trapped_chest_1.7.10.png"
+TRAPPED_DOUBLE_CHEST = SOURCE_DIR / "trapped_double_chest_1.7.10.png"
+BASE_PLANK = SOURCE_DIR / "birch_planks_1.7.10.png"
+OAK_BASE_PLANK = SOURCE_DIR / "oak_planks_1.7.10.png"
 
 VARIANTS = {
     "oak": {
         "plank_member": "assets/minecraft/textures/blocks/planks_oak.png",
-        "plank_file": ROOT / "oak_planks_1.7.10.png",
+        "plank_file": SOURCE_DIR / "oak_planks_1.7.10.png",
         "chest_file": SRC_CHEST_DIR / "moakchest.png",
         "double_chest_file": SRC_CHEST_DIR / "moakchest_double.png",
         "trapped_chest_file": SRC_CHEST_DIR / "moaktrappedchest.png",
@@ -31,7 +32,7 @@ VARIANTS = {
     },
     "spruce": {
         "plank_member": "assets/minecraft/textures/blocks/planks_spruce.png",
-        "plank_file": ROOT / "spruce_planks_1.7.10.png",
+        "plank_file": SOURCE_DIR / "spruce_planks_1.7.10.png",
         "chest_file": SRC_CHEST_DIR / "msprucechest.png",
         "double_chest_file": SRC_CHEST_DIR / "msprucechest_double.png",
         "trapped_chest_file": SRC_CHEST_DIR / "msprucetrappedchest.png",
@@ -40,7 +41,7 @@ VARIANTS = {
     },
     "birch": {
         "plank_member": "assets/minecraft/textures/blocks/planks_birch.png",
-        "plank_file": ROOT / "birch_planks_1.7.10.png",
+        "plank_file": SOURCE_DIR / "birch_planks_1.7.10.png",
         "chest_file": SRC_CHEST_DIR / "mbirchchest.png",
         "double_chest_file": SRC_CHEST_DIR / "mbirchchest_double.png",
         "trapped_chest_file": SRC_CHEST_DIR / "mbirchtrappedchest.png",
@@ -49,7 +50,7 @@ VARIANTS = {
     },
     "jungle": {
         "plank_member": "assets/minecraft/textures/blocks/planks_jungle.png",
-        "plank_file": ROOT / "jungle_planks_1.7.10.png",
+        "plank_file": SOURCE_DIR / "jungle_planks_1.7.10.png",
         "chest_file": SRC_CHEST_DIR / "mjunglechest.png",
         "double_chest_file": SRC_CHEST_DIR / "mjunglechest_double.png",
         "trapped_chest_file": SRC_CHEST_DIR / "mjungletrappedchest.png",
@@ -58,7 +59,7 @@ VARIANTS = {
     },
     "acacia": {
         "plank_member": "assets/minecraft/textures/blocks/planks_acacia.png",
-        "plank_file": ROOT / "acacia_planks_1.7.10.png",
+        "plank_file": SOURCE_DIR / "acacia_planks_1.7.10.png",
         "chest_file": SRC_CHEST_DIR / "macaciachest.png",
         "double_chest_file": SRC_CHEST_DIR / "macaciachest_double.png",
         "trapped_chest_file": SRC_CHEST_DIR / "macaciatrappedchest.png",
@@ -67,7 +68,7 @@ VARIANTS = {
     },
     "dark_oak": {
         "plank_member": "assets/minecraft/textures/blocks/planks_big_oak.png",
-        "plank_file": ROOT / "dark_oak_planks_1.7.10.png",
+        "plank_file": SOURCE_DIR / "dark_oak_planks_1.7.10.png",
         "chest_file": SRC_CHEST_DIR / "mdarkoakchest.png",
         "double_chest_file": SRC_CHEST_DIR / "mdarkoakchest_double.png",
         "trapped_chest_file": SRC_CHEST_DIR / "mdarkoaktrappedchest.png",

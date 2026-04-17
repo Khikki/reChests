@@ -32,7 +32,7 @@ public class ReChests {
     // MODID is used in registry names, resource paths, and logging.
     public static final String MODID = "rechests";
     public static final String NAME = "Re:Chests";
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.0.1";
 
     private static final ChestVariant[] NORMAL_VARIANTS = {
         ChestVariant.OAK,
@@ -265,4 +265,3 @@ public class ReChests {
         return CHEST_MINECART_ITEMS.get(variant);
     }
 }
-

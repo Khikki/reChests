@@ -14,10 +14,12 @@ public class ItemVariantChestMinecart extends Item {
 
     public ItemVariantChestMinecart(ChestVariant variant) {
         this.variant = variant;
-        setUnlocalizedName(variant.getMinecartItemName());
-        setTextureName("minecraft:minecart_chest");
-        setCreativeTab(CreativeTabs.tabTransport);
-        setMaxStackSize(1);
+        // Call Item methods through super so old 1.7.10 runtimes and patched stacks
+        // resolve them on the base class instead of this subclass.
+        super.setUnlocalizedName(variant.getMinecartItemName());
+        super.setTextureName("minecraft:minecart_chest");
+        super.setCreativeTab(CreativeTabs.tabTransport);
+        super.setMaxStackSize(1);
     }
 
     @Override
@@ -35,4 +37,3 @@ public class ItemVariantChestMinecart extends Item {
         return true;
     }
 }
-

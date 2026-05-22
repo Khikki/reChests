@@ -9,6 +9,8 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import com.github.khikki.rechests.block.VariantChestBlock;
 import com.github.khikki.rechests.chest.ChestVariant;
+import com.github.khikki.rechests.block.VariantBookshelfBlock;
+import com.github.khikki.rechests.bookshelf.BookshelfVariant;
 import com.github.khikki.rechests.entity.EntityVariantChestMinecart;
 import com.github.khikki.rechests.item.ItemVariantChestMinecart;
 import com.github.khikki.rechests.proxy.CommonProxy;
@@ -52,6 +54,15 @@ public class ReChests {
         ChestVariant.TRAPPED_DARK_OAK
     };
 
+    private static final BookshelfVariant[] BOOKSHELF_VARIANTS = {
+            BookshelfVariant.OAK,
+            BookshelfVariant.SPRUCE,
+            BookshelfVariant.BIRCH,
+            BookshelfVariant.JUNGLE,
+            BookshelfVariant.ACACIA,
+            BookshelfVariant.DARK_OAK
+    };
+
     @SidedProxy(
         clientSide = "com.github.khikki.rechests.proxy.ClientProxy",
         serverSide = "com.github.khikki.rechests.proxy.CommonProxy"
@@ -60,6 +71,7 @@ public class ReChests {
 
     private static final Map<ChestVariant, Block> CHEST_BLOCKS = new EnumMap<ChestVariant, Block>(ChestVariant.class);
     private static final Map<ChestVariant, Item> CHEST_MINECART_ITEMS = new EnumMap<ChestVariant, Item>(ChestVariant.class);
+    private static final Map<BookshelfVariant, Block> BOOKSHELF_BLOCKS = new EnumMap<BookshelfVariant, Block>(BookshelfVariant.class);
 
     // These fields are kept as direct references because the rest of the codebase already uses them.
     public static Item oakChestMinecartItem;
@@ -80,13 +92,23 @@ public class ReChests {
     public static Block trappedJungleChest;
     public static Block trappedAcaciaChest;
     public static Block trappedDarkOakChest;
+    public static Block oakBookshelf;
+    public static Block spruceBookshelf;
+    public static Block birchBookshelf;
+    public static Block jungleBookshelf;
+    public static Block acaciaBookshelf;
+    public static Block darkOakBookshelf;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        // Build all objects first, then register them.
+        // This keeps registry calls simple and avoids partially initialized static fields.
         createMinecartItems();
         createChestBlocks();
+        createBookshelfBlocks();
         registerMinecartItems();
         registerChestBlocks();
+        registerBookshelfBlocks();
         registerOreDictionaryEntries();
 
         GameRegistry.registerTileEntity(VariantChestTileEntity.class, "rechests_variant_chest");
@@ -95,8 +117,13 @@ public class ReChests {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        // Client-only visual bindings are delegated to proxy.
         proxy.registerRenderers();
 
+        // Recipe order is intentional:
+        // 1) remove vanilla chest recipe,
+        // 2) add conversions and custom recipes,
+        // 3) add compatibility recipes that depend on custom blocks.
         removeVanillaChestRecipe();
         addConversionRecipes();
         addCraftingRecipes();
@@ -104,6 +131,7 @@ public class ReChests {
     }
 
     private void createMinecartItems() {
+        // Minecart items exist only for non-trapped variants.
         for (ChestVariant variant : NORMAL_VARIANTS) {
             CHEST_MINECART_ITEMS.put(variant, new ItemVariantChestMinecart(variant));
         }
@@ -117,6 +145,7 @@ public class ReChests {
     }
 
     private void createChestBlocks() {
+        // Every enum value gets its own block instance, including trapped variants.
         for (ChestVariant variant : ChestVariant.values()) {
             CHEST_BLOCKS.put(variant, new VariantChestBlock(variant));
         }
@@ -135,6 +164,18 @@ public class ReChests {
         trappedDarkOakChest = CHEST_BLOCKS.get(ChestVariant.TRAPPED_DARK_OAK);
     }
 
+    private void createBookshelfBlocks() {
+        for (BookshelfVariant variant : BOOKSHELF_VARIANTS) {
+            BOOKSHELF_BLOCKS.put(variant, new VariantBookshelfBlock(variant));
+        }
+
+        oakBookshelf = BOOKSHELF_BLOCKS.get(BookshelfVariant.OAK);
+        spruceBookshelf = BOOKSHELF_BLOCKS.get(BookshelfVariant.SPRUCE);
+        birchBookshelf = BOOKSHELF_BLOCKS.get(BookshelfVariant.BIRCH);
+        jungleBookshelf = BOOKSHELF_BLOCKS.get(BookshelfVariant.JUNGLE);
+        acaciaBookshelf = BOOKSHELF_BLOCKS.get(BookshelfVariant.ACACIA);
+        darkOakBookshelf = BOOKSHELF_BLOCKS.get(BookshelfVariant.DARK_OAK);
+    }
     private void registerMinecartItems() {
         for (ChestVariant variant : NORMAL_VARIANTS) {
             Item item = CHEST_MINECART_ITEMS.get(variant);
@@ -153,6 +194,14 @@ public class ReChests {
         }
     }
 
+    private void registerBookshelfBlocks() {
+        for (BookshelfVariant variant : BOOKSHELF_VARIANTS) {
+            Block block = BOOKSHELF_BLOCKS.get(variant);
+            if (block != null) {
+                GameRegistry.registerBlock(block, variant.getId() + "_bookshelf");
+            }
+        }
+    }
     private void registerOreDictionaryEntries() {
         for (ChestVariant variant : NORMAL_VARIANTS) {
             OreDictionary.registerOre("chestWood", getChestBlock(variant));
@@ -160,12 +209,14 @@ public class ReChests {
     }
 
     private void addConversionRecipes() {
+        // Vanilla chest can be converted to the oak variant and back from any normal variant.
         GameRegistry.addShapelessRecipe(new ItemStack(oakChest), Blocks.chest);
 
         for (ChestVariant variant : NORMAL_VARIANTS) {
             GameRegistry.addShapelessRecipe(new ItemStack(Blocks.chest), getChestBlock(variant));
         }
 
+        // Same conversion for trapped chest variants.
         GameRegistry.addShapelessRecipe(new ItemStack(trappedOakChest), Blocks.trapped_chest);
 
         for (ChestVariant variant : TRAPPED_VARIANTS) {
@@ -204,6 +255,7 @@ public class ReChests {
     }
 
     private void removeVanillaChestRecipe() {
+        // Replace vanilla "8 planks -> chest" recipe with per-wood recipes.
         List recipes = CraftingManager.getInstance().getRecipeList();
         Iterator iterator = recipes.iterator();
 
@@ -218,6 +270,7 @@ public class ReChests {
     }
 
     private void addChestRecipe(ChestVariant variant, int plankMeta) {
+        // 1.7.10 planks are a single block with metadata per wood type.
         GameRegistry.addRecipe(
             new ItemStack(getChestBlock(variant)),
             "XXX", "X X", "XXX",
@@ -249,6 +302,7 @@ public class ReChests {
     }
 
     public static Block getChestBlock(ChestVariant variant) {
+        // Null-safe fallback helps old saves or external integrations that pass null.
         if (variant == null) {
             return oakChest;
         }
@@ -258,6 +312,7 @@ public class ReChests {
     }
 
     public static Item getChestMinecartItem(ChestVariant variant) {
+        // Fallback to oak minecart item for null input to keep behavior predictable.
         if (variant == null) {
             return oakChestMinecartItem;
         }

@@ -242,6 +242,8 @@ public class ReChests {
         addTrappedChestRecipe(ChestVariant.JUNGLE, ChestVariant.TRAPPED_JUNGLE);
         addTrappedChestRecipe(ChestVariant.ACACIA, ChestVariant.TRAPPED_ACACIA);
         addTrappedChestRecipe(ChestVariant.DARK_OAK, ChestVariant.TRAPPED_DARK_OAK);
+
+        addBookshelfRecipes();
     }
 
     private void addCompatibilityRecipes() {
@@ -267,6 +269,52 @@ public class ReChests {
                 iterator.remove();
             }
         }
+    }
+
+    private void addBookshelfRecipes() {
+        GameRegistry.addRecipe(
+                new ItemStack(oakBookshelf),
+                "WWW",
+                "BBB",
+                "WWW",
+                'W', new ItemStack(Blocks.planks, 1, 0),
+                'B', Items.book
+        );
+        GameRegistry.addRecipe(
+                new ItemStack(birchBookshelf),
+                "WWW",
+                "BBB",
+                "WWW",
+                'W', new ItemStack(Blocks.planks, 1, 2),
+                'B', Items.book
+        );
+
+        GameRegistry.addRecipe(
+                new ItemStack(jungleBookshelf),
+                "WWW",
+                "BBB",
+                "WWW",
+                'W', new ItemStack(Blocks.planks, 1, 3),
+                'B', Items.book
+        );
+
+        GameRegistry.addRecipe(
+                new ItemStack(acaciaBookshelf),
+                "WWW",
+                "BBB",
+                "WWW",
+                'W', new ItemStack(Blocks.planks, 1, 4),
+                'B', Items.book
+        );
+
+        GameRegistry.addRecipe(
+                new ItemStack(darkOakBookshelf),
+                "WWW",
+                "BBB",
+                "WWW",
+                'W', new ItemStack(Blocks.planks, 1, 5),
+                'B', Items.book
+        );
     }
 
     private void addChestRecipe(ChestVariant variant, int plankMeta) {
